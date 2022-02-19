@@ -1,4 +1,5 @@
-package org.dpq.webservices.resources;
+package org.dpq.webservices.messenger;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +8,8 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -17,7 +20,7 @@ import jakarta.ws.rs.core.MediaType;
  */
 @Path("/msgs")
 @Produces({MediaType.APPLICATION_JSON , MediaType.TEXT_PLAIN})
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.TEXT_PLAIN)
 @Singleton
 public class MyResource {
    
@@ -59,4 +62,22 @@ public class MyResource {
     public String getText() {
         return "Dummy message";
     }
+    
+    @PUT
+    @Path("/{messageId}")
+    public void updateMessage(@PathParam("messageId") long id, String message) {
+    	if(messages.containsKey(id)) {
+    		messages.put(id, message);
+    		System.out.println("updated message and message was "+message);
+    	}else {
+    		System.out.println("id not found to update message");
+    	}
+    }
+    
+    @POST
+    public void addMessage(String message) {
+    	messages.put(Long.valueOf(messages.size())+1, message);
+    }
+    
+    
 }

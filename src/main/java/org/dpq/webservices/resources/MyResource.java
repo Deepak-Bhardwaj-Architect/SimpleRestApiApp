@@ -1,9 +1,10 @@
 package org.dpq.webservices.resources;
-
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -15,7 +16,8 @@ import jakarta.ws.rs.core.MediaType;
  * Root resource (exposed at "myresource" path)
  */
 @Path("/msgs")
-//@Produces(MediaType.APPLICATION_JSON)
+@Produces({MediaType.APPLICATION_JSON , MediaType.TEXT_PLAIN})
+@Consumes(MediaType.APPLICATION_JSON)
 @Singleton
 public class MyResource {
    
@@ -45,9 +47,10 @@ public class MyResource {
     }
     
     @GET
+    @Path("/all")
     @Produces(MediaType.TEXT_PLAIN)
-    public String [] getAllMessages() {
-    	return messages.values().stream().toArray(String [] :: new);
+    public String getAllMessages() {
+    	return Arrays.toString(messages.values().stream().toArray(String [] :: new));
     }
     
     @GET
